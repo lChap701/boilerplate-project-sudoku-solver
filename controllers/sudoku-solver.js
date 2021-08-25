@@ -28,7 +28,7 @@ class SudokuSolver {
    * @param {Number} column         Represents the column of the specified region
    * @param {Number} value          Represents the value to look for
    *
-   * @returns
+   * @returns Returns an object containing message(s) that determine if the user was correct
    */
   checkRowPlacement(puzzleString, row, column, value) {}
 
@@ -39,7 +39,7 @@ class SudokuSolver {
    * @param {Number} column         Represents the column of the specified region
    * @param {Number} value          Represents the value to look for
    *
-   * @returns
+   * @returns Returns an object containing message(s) that determine if the user was correct
    */
   checkColPlacement(puzzleString, row, column, value) {}
 
@@ -50,7 +50,7 @@ class SudokuSolver {
    * @param {Number} column         Represents the column of the specified region
    * @param {Number} value          Represents the value to look for
    *
-   * @returns
+   * @returns Returns an object containing message(s) that determine if the user was correct
    */
   checkRegionPlacement(puzzleString, row, column, value) {}
 
