@@ -63,6 +63,7 @@ class SudokuSolver {
   solve(puzzleString) {
     console.log(puzzleString);
     const message = this.validate(puzzleString);
+    console.log(message);
 
     // Checks if the puzzle contains valid characters
     if (message === "valid") {
@@ -70,6 +71,7 @@ class SudokuSolver {
 
       // Checks if a solution was found
       if (solution) {
+        console.log(solution);
         return { solution: solution };
       } else {
         return { error: "Puzzle cannot be solved" };
