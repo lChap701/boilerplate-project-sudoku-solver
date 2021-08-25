@@ -5,7 +5,7 @@
  */
 class SudokuSolver {
   /**
-   * Make sure the puzzle can be solved
+   * Make sure the puzzle has 81 valid characters
    * @param {String} puzzleString   Represents the entire puzzle
    *
    */
@@ -14,7 +14,7 @@ class SudokuSolver {
   /**
    * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
-   * @param {String} row            Represents the row of the specified region
+   * @param {Number} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
    * @param {Number} value          Represents the value to look for
    *
@@ -24,7 +24,7 @@ class SudokuSolver {
   /**
    * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
-   * @param {String} row            Represents the row of the specified region
+   * @param {Number} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
    * @param {Number} value          Represents the value to look for
    *
@@ -34,7 +34,7 @@ class SudokuSolver {
   /**
    * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
-   * @param {String} row            Represents the row of the specified region
+   * @param {Number} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
    * @param {Number} value          Represents the value to look for
    *
