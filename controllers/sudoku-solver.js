@@ -80,7 +80,7 @@ class SudokuSolver {
 
   /**
    * Creates a 9x9 grid
-   * @param {String} puzzleString   Represents the entire puzzle as only a string
+   * @param {String} puzzleString   Represents the entire puzzle as a string
    *
    * @returns Returns a 9x9 grid based on the string version of the puzzle
    */
