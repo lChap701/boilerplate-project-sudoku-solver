@@ -8,7 +8,7 @@ class SudokuSolver {
    * Make sure the puzzle has 81 valid characters
    * @param {String} puzzleString   Represents the entire puzzle
    *
-   * @returns Returns a message that determines if the puzzle contains valid 81 characters
+   * @returns Returns a message that determines if the puzzle contains 81 valid characters
    */
   validate(puzzleString) {
     if (puzzleString.trim().length > 0) return "Required field missing";
