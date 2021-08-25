@@ -12,30 +12,30 @@ class SudokuSolver {
   validate(puzzleString) {}
 
   /**
-   * Checks if the value entered is in the puzzle at the specified row and column
+   * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
-   * @param {String} row            Represents the specified row (A - I)
-   * @param {Number} column         Represents the specified column (1 - 9)
+   * @param {String} row            Represents the row of the specified region
+   * @param {Number} column         Represents the column of the specified region
    * @param {Number} value          Represents the value to look for
    *
    */
   checkRowPlacement(puzzleString, row, column, value) {}
 
   /**
-   * Checks if the value entered is in the puzzle at the specified row and column
+   * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
-   * @param {String} row            Represents the specified row (A - I)
-   * @param {Number} column         Represents the specified column (1 - 9)
+   * @param {String} row            Represents the row of the specified region
+   * @param {Number} column         Represents the column of the specified region
    * @param {Number} value          Represents the value to look for
    *
    */
   checkColPlacement(puzzleString, row, column, value) {}
 
   /**
-   * Checks if the value entered is in the puzzle at the specified row and column
+   * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
-   * @param {String} row            Represents the specified row (A - I)
-   * @param {Number} column         Represents the specified column (1 - 9)
+   * @param {String} row            Represents the row of the specified region
+   * @param {Number} column         Represents the column of the specified region
    * @param {Number} value          Represents the value to look for
    *
    */
