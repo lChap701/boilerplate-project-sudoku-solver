@@ -11,7 +11,8 @@ class SudokuSolver {
    * @returns Returns a message that determines if the puzzle contains 81 valid characters
    */
   validate(puzzleString) {
-    if (puzzleString.trim().length > 0) return "Required field missing";
+    if (puzzleString === undefined || puzzleString.trim().length === 0)
+      return "Required field missing";
     if (puzzleString.trim().length !== 81)
       return "Expected puzzle to be 81 characters long";
 
@@ -30,7 +31,10 @@ class SudokuSolver {
    *
    * @returns Returns an object containing message(s) that determine if the user was correct
    */
-  checkRowPlacement(puzzleString, row, column, value) {}
+  checkRowPlacement(puzzleString, row, column, value) {
+    if (value.trim().length == 0) return { error: "Required field(s) missing" };
+    return { vaild: true };
+  }
 
   /**
    * Checks if the value entered is in the puzzle at the row and column of the specified region
@@ -41,7 +45,10 @@ class SudokuSolver {
    *
    * @returns Returns an object containing message(s) that determine if the user was correct
    */
-  checkColPlacement(puzzleString, row, column, value) {}
+  checkColPlacement(puzzleString, row, column, value) {
+    if (value.trim().length == 0) return { error: "Required field(s) missing" };
+    return { vaild: true };
+  }
 
   /**
    * Checks if the value entered is in the puzzle at the row and column of the specified region
@@ -52,7 +59,10 @@ class SudokuSolver {
    *
    * @returns Returns an object containing message(s) that determine if the user was correct
    */
-  checkRegionPlacement(puzzleString, row, column, value) {}
+  checkRegionPlacement(puzzleString, row, column, value) {
+    if (value.trim().length == 0) return { error: "Required field(s) missing" };
+    return { vaild: true };
+  }
 
   /**
    * Attempts to solve the puzzle
