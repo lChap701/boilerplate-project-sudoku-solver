@@ -40,6 +40,8 @@ suite("UnitTests", () => {
     });
   });
 
+  suite("Check Position Tests", () => {});
+
   suite("Solve Puzzle Tests", () => {
     test("1)  Valid Puzzles Tests", () => {
       puzzles.forEach((puzzle) => {
@@ -65,7 +67,9 @@ suite("UnitTests", () => {
         message,
         "error",
         "Puzzle cannot be solved",
-        `${JSON.stringify(message)} should have a property of 'error' equal to 'Puzzle cannot be solved'`
+        `${JSON.stringify(
+          message
+        )} should have a property of 'error' equal to 'Puzzle cannot be solved'`
       );
     });
 
