@@ -79,6 +79,25 @@ suite("UnitTests", () => {
     });
   });
 
+  suite("Region Placement Tests", () => {
+    const PUZZLE =
+      "..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..";
+
+    test("1)  Valid Region Placement Test", () => {
+      const RES = solver.checkRegionPlacement(PUZZLE, "A", 3, "9");
+      assert.equal(RES, true, `'true' should have been returned, not '${RES}'`);
+    });
+
+    test("2)  Invalid Region Placement Test", () => {
+      const RES = solver.checkRegionPlacement(PUZZLE, "A", 1, "9");
+      assert.equal(
+        RES,
+        false,
+        `'false' should have been returned, not '${RES}'`
+      );
+    });
+  });
+
   suite("Solve Puzzle Tests", () => {
     test("1)  Valid Puzzles Tests", () => {
       puzzles.forEach((puzzle) => {
