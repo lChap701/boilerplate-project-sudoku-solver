@@ -21,6 +21,7 @@ module.exports = function (app) {
     let value = req.body.value;
 
     // Validates the data and stores the result
+    let puzzleChkRes = solver.validate(puzzle);
     let rowChkRes = solver.checkRowPlacement(puzzle, row, parseInt(col), value);
     let colChkRes = solver.checkColPlacement(puzzle, row, parseInt(col), value);
     let regChkRes = solver.checkRegionPlacement(
@@ -29,6 +30,9 @@ module.exports = function (app) {
       parseInt(col),
       value
     );
+
+    // Checks the results of the puzzle validation
+    if (puzzleChkRes !== "valid") res.json({ error: puzzleChkRes });
 
     // Checks the results of the row validation
     if (typeof rowChkRes === String) {
