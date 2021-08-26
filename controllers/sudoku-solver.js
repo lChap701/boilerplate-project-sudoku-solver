@@ -33,7 +33,7 @@ class SudokuSolver {
    */
   checkRowPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (value.trim().length == 0) return "Required field(s) missing";
+    if (!value || !row || column < 0) return "Required field(s) missing";
 
     if (
       parseInt(value) < 1 ||
@@ -49,6 +49,12 @@ class SudokuSolver {
 
     // Validate grid
     let grid = this.createGrid(puzzleString);
+
+    if (
+      grid[rowNum][column - 1] !== 0 &&
+      grid[rowNum][column - 1] === parseInt(value)
+    )
+      return true;
 
     if (grid[rowNum][column - 1] !== 0) return false;
 
@@ -69,8 +75,7 @@ class SudokuSolver {
    */
   checkColPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (value.trim().length == 0 || row.trim().length === 0 || column < 0)
-      return "Required field(s) missing";
+    if (!value || !row || column < 0) return "Required field(s) missing";
 
     if (
       parseInt(value) < 1 ||
@@ -86,6 +91,12 @@ class SudokuSolver {
 
     // Validates grid
     let grid = this.createGrid(puzzleString);
+
+    if (
+      grid[rowNum][column - 1] !== 0 &&
+      grid[rowNum][column - 1] === parseInt(value)
+    )
+      return true;
 
     if (grid[rowNum][column - 1] !== 0) return false;
 
@@ -105,8 +116,7 @@ class SudokuSolver {
    * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkRegionPlacement(puzzleString, row, column, value) {
-    if (value.trim().length == 0 || row.trim().length === 0 || column < 0)
-      return "Required field(s) missing";
+    if (!value || !row || column < 0) return "Required field(s) missing";
 
     if (
       parseInt(value) < 1 ||
@@ -125,7 +135,13 @@ class SudokuSolver {
     let startRow = rowNum - (rowNum % 3);
     let startCol = column - (column % 3);
 
-    if (grid[rowNum][column - 1] !== 0) return false;
+    if (
+      grid[rowNum - 1][column - 1] !== 0 &&
+      grid[rowNum - 1][column - 1] === parseInt(value)
+    )
+      return true;
+
+    if (grid[rowNum - 1][column - 1] !== 0) return false;
 
     for (let i = 0; i < 3; i++)
       for (let x = 0; x < 3; x++)

@@ -15,11 +15,16 @@ module.exports = function (app) {
     let msgSent = false;
 
     // Gets the data that was submitted
-    let puzzle = req.body.puzzle;
-    let row = req.body.coordinate.split("")[0];
-    let col = req.body.coordinate.split("")[1];
+    const { puzzle, coordinate, value } = req.body;
+
+    if (!puzzle || !coordinate || !value) {
+      res.json({ error: "Required field(s) missing" });
+      return;
+    }
+
+    let row = coordinate.split("")[0];
+    let col = coordinate.split("")[1];
     col = col == undefined || col == "" ? -1 : parseInt(col);
-    let value = req.body.value;
 
     // Validates the data and stores the result
     let puzzleChkRes = solver.validate(puzzle);
