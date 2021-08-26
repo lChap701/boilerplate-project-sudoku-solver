@@ -42,17 +42,16 @@ suite("UnitTests", () => {
   });
 
   suite("Row Placement Tests", () => {
-    test("1)  Valid Row Placement", () => {
-      const puzzle =
-        "..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..";
-      const RES = solver.checkRowPlacement(puzzle, "A", 1, "7");
+    const PUZZLE =
+      "..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..";
+
+    test("1)  Valid Row Placement Test", () => {
+      const RES = solver.checkRowPlacement(PUZZLE, "A", 1, "7");
       assert.equal(RES, true, `'true' should have been returned, not '${RES}'`);
     });
 
-    test("2)  Invalid Row Placement", () => {
-      const puzzle =
-        "..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..";
-      const RES = solver.checkRowPlacement(puzzle, "Z", 1, "5");
+    test("2)  Invalid Row Placement Test", () => {
+      const RES = solver.checkRowPlacement(PUZZLE, "Z", 1, "5");
       assert.equal(
         RES,
         "Invalid coordinate",
@@ -62,7 +61,22 @@ suite("UnitTests", () => {
   });
 
   suite("Column Placement Tests", () => {
-    const 
+    const PUZZLE =
+      "..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..";
+
+    test("1)  Valid Column Placement Test", () => {
+      const RES = solver.checkColPlacement(PUZZLE, "B", 3, "1");
+      assert.equal(RES, true, `'true' should have been returned, not '${RES}'`);
+    });
+
+    test("2)  Invalid Column Placement Test", () => {
+      const RES = solver.checkColPlacement(PUZZLE, "B", 0, "9");
+      assert.equal(
+        RES,
+        "Invalid coordinate",
+        `'Invalid coordinate' should have been returned, not '${RES}'`
+      );
+    });
   });
 
   suite("Solve Puzzle Tests", () => {
