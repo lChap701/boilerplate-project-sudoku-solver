@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 suite("Functional Tests", () => {
   /* My tests */
-  //suite("Testing /api/check");
+  //suite("Testing /api/check", () => {});
 
   suite("Testing /api/solve", () => {
     const PATH = "/api/solve";

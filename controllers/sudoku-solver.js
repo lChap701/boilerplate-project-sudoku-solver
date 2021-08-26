@@ -79,7 +79,6 @@ class SudokuSolver {
       return "Invalid coordinate";
 
     let grid = this.createGrid(this.solveSuduko(this.createGrid(puzzleString)));
-    console.log(grid);
 
     for (let i = rowNum; i < 9; i++)
       if (grid[i][column - 1] == parseInt(value)) return true;
