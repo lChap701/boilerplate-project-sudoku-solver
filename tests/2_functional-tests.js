@@ -186,6 +186,125 @@ suite("Functional Tests", () => {
             "error",
             "response should have a property of 'error'"
           );
+
+          assert.propertyVal(
+            res.body,
+            "error",
+            "Required field(s) missing",
+            "response should have a property of 'error' equal to 'Required field(s) missing'"
+          );
+        });
+    });
+
+    test("7)  Invalid Puzzle Characters Test", () => {
+      const data = {
+        puzzle: ".".repeat(40) + "a" + "1".repeat(40),
+        coordinate: "h9",
+        value: "3",
+      };
+
+      chai
+        .request(server)
+        .post(PATH)
+        .send(data)
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
+          assert.property(
+            res.body,
+            "error",
+            "response should have a property of 'error'"
+          );
+
+          assert.propertyVal(
+            res.body,
+            "error",
+            "Invalid characters in puzzle",
+            "response should have a property of 'error' equal to 'Invalid characters in puzzle'"
+          );
+        });
+    });
+
+    test("8)  Invalid Puzzle Length Test", () => {
+      const data = {
+        puzzle: ".",
+        coordinate: "h9",
+        value: "3",
+      };
+
+      chai
+        .request(server)
+        .post(PATH)
+        .send(data)
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
+          assert.property(
+            res.body,
+            "error",
+            "response should have a property of 'error'"
+          );
+
+          assert.propertyVal(
+            res.body,
+            "error",
+            "Expected puzzle to be 81 characters long",
+            "response should have a property of 'error' equal to 'Expected puzzle to be 81 characters long'"
+          );
+        });
+    });
+
+    test("9)  Invalid Coordinates Test", () => {
+      const data = {
+        puzzle: PUZZLE,
+        coordinate: "z0",
+        value: "3",
+      };
+
+      chai
+        .request(server)
+        .post(PATH)
+        .send(data)
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
+          assert.property(
+            res.body,
+            "error",
+            "response should have a property of 'error'"
+          );
+
+          assert.propertyVal(
+            res.body,
+            "error",
+            "Invalid coordinate",
+            "response should have a property of 'error' equal to 'Invalid coordinate'"
+          );
+        });
+    });
+
+    test("10)  Invalid Placement Value Test", () => {
+      const data = {
+        puzzle: PUZZLE,
+        coordinate: "h9",
+        value: "0",
+      };
+
+      chai
+        .request(server)
+        .post(PATH)
+        .send(data)
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
+          assert.property(
+            res.body,
+            "error",
+            "response should have a property of 'error'"
+          );
+
+          assert.propertyVal(
+            res.body,
+            "error",
+            "Invalid value",
+            "response should have a property of 'error' equal to 'Invalid value'"
+          );
         });
     });
   });
