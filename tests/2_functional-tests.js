@@ -10,7 +10,185 @@ chai.use(chaiHttp);
 
 suite("Functional Tests", () => {
   /* My tests */
-  //suite("Testing /api/check", () => {});
+  suite("Testing /api/check", () => {
+    const PATH = "/api/check";
+    const PUZZLE =
+      "..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..";
+
+    test("1)  All Valid Placements Test", () => {
+      const data = {
+        puzzle: PUZZLE,
+        coordinate: "A4",
+        value: "2",
+      };
+
+      chai
+        .request(server)
+        .post(PATH)
+        .send(data)
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
+
+          assert.property(
+            res.body,
+            "valid",
+            "response should have the property 'valid'"
+          );
+
+          assert.propertyVal(
+            res.body,
+            "valid",
+            true,
+            "response should have the property 'valid' equal to 'true'"
+          );
+        });
+    });
+
+    test("2)  Single Placement Conflict Test", () => {
+      const data = {
+        puzzle: PUZZLE,
+        coordinate: "A7",
+        value: "2",
+      };
+
+      chai
+        .request(server)
+        .post(PATH)
+        .send(data)
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
+
+          assert.property(
+            res.body,
+            "valid",
+            "response should have the property 'valid'"
+          );
+
+          assert.propertyVal(
+            res.body,
+            "valid",
+            false,
+            "response should have the property 'valid' equal to 'false'"
+          );
+
+          assert.property(
+            res.body,
+            "conflict",
+            "response should have the property 'conflict'"
+          );
+
+          assert.isArray(
+            res.body.conflict,
+            `${JSON.stringify(res.body.conflict)} sholud be an array`
+          );
+
+          assert.equal(
+            res.body.conflict[0],
+            "region",
+            `${JSON.stringify(res.body.conflict)} should contain 'region'`
+          );
+        });
+    });
+
+    test("3)  Multiple Placement Conflicts Test", () => {
+      const data = {
+        puzzle: PUZZLE,
+        coordinate: "a1",
+        value: "8",
+      };
+
+      chai
+        .request(server)
+        .post(PATH)
+        .send(data)
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
+
+          assert.property(
+            res.body,
+            "conflict",
+            "response should have the property 'conflict'"
+          );
+
+          assert.isArray(
+            res.body.conflict,
+            `${JSON.stringify(res.body.conflict)} sholud be an array`
+          );
+
+          assert.equal(
+            res.body.conflict[0],
+            "column",
+            `${JSON.stringify(res.body.conflict)} should contain 'column'`
+          );
+
+          assert.equal(
+            res.body.conflict[1],
+            "region",
+            `${JSON.stringify(res.body.conflict)} should contain 'region'`
+          );
+        });
+    });
+
+    test("4)  All Placement Conflicts Test", () => {
+      const data = {
+        puzzle: PUZZLE,
+        coordinate: "h9",
+        value: "3",
+      };
+
+      chai
+        .request(server)
+        .post(PATH)
+        .send(data)
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
+
+          assert.property(
+            res.body,
+            "conflict",
+            "response should have the property 'conflict'"
+          );
+
+          assert.isArray(
+            res.body.conflict,
+            `${JSON.stringify(res.body.conflict)} sholud be an array`
+          );
+
+          assert.equal(
+            res.body.conflict[0],
+            "row",
+            `${JSON.stringify(res.body.conflict)} should contain 'row'`
+          );
+
+          assert.equal(
+            res.body.conflict[1],
+            "column",
+            `${JSON.stringify(res.body.conflict)} should contain 'column'`
+          );
+
+          assert.equal(
+            res.body.conflict[2],
+            "region",
+            `${JSON.stringify(res.body.conflict)} should contain 'region'`
+          );
+        });
+    });
+
+    test("6)  Missing Required Fields Test", () => {
+      chai
+        .request(server)
+        .post(PATH)
+        .send()
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
+          assert.property(
+            res.body,
+            "error",
+            "response should have a property of 'error'"
+          );
+        });
+    });
+  });
 
   suite("Testing /api/solve", () => {
     const PATH = "/api/solve";

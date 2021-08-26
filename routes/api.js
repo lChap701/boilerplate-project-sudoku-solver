@@ -11,7 +11,6 @@ module.exports = function (app) {
   let solver = new SudokuSolver();
 
   app.route("/api/check").post((req, res) => {
-    console.log(req.body);
     let conflicts = [];
     let msgSent = false;
 
@@ -19,6 +18,7 @@ module.exports = function (app) {
     let puzzle = req.body.puzzle;
     let row = req.body.coordinate.split("")[0];
     let col = req.body.coordinate.split("")[1];
+    col = col == undefined || col == "" ? -1 : parseInt(col);
     let value = req.body.value;
 
     // Validates the data and stores the result

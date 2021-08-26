@@ -32,6 +32,7 @@ class SudokuSolver {
    * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkRowPlacement(puzzleString, row, column, value) {
+    // Validate inputs
     if (value.trim().length == 0) return "Required field(s) missing";
 
     if (
@@ -46,12 +47,15 @@ class SudokuSolver {
     if (rowNum < 0 || typeof column !== "number" || column <= 0)
       return "Invalid coordinate";
 
-    let grid = this.createGrid(this.solveSuduko(this.createGrid(puzzleString)));
+    // Validate grid
+    let grid = this.createGrid(puzzleString);
 
-    for (let i = column - 1; i < 9; i++)
-      if (grid[rowNum][i] == parseInt(value)) return true;
+    if (grid[rowNum][column - 1] !== 0) return false;
 
-    return false;
+    for (let i = 0; i < 9; i++)
+      if (grid[rowNum][i] == parseInt(value)) return false;
+
+    return true;
   }
 
   /**
@@ -64,7 +68,9 @@ class SudokuSolver {
    * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkColPlacement(puzzleString, row, column, value) {
-    if (value.trim().length == 0) return "Required field(s) missing";
+    // Validate inputs
+    if (value.trim().length == 0 || row.trim().length === 0 || column < 0)
+      return "Required field(s) missing";
 
     if (
       parseInt(value) < 1 ||
@@ -78,12 +84,15 @@ class SudokuSolver {
     if (rowNum < 0 || typeof column !== "number" || column <= 0)
       return "Invalid coordinate";
 
-    let grid = this.createGrid(this.solveSuduko(this.createGrid(puzzleString)));
+    // Validates grid
+    let grid = this.createGrid(puzzleString);
 
-    for (let i = rowNum; i < 9; i++)
-      if (grid[i][column - 1] == parseInt(value)) return true;
+    if (grid[rowNum][column - 1] !== 0) return false;
 
-    return false;
+    for (let i = 0; i < 9; i++)
+      if (grid[i][column - 1] == parseInt(value)) return false;
+
+    return true;
   }
 
   /**
@@ -96,7 +105,8 @@ class SudokuSolver {
    * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkRegionPlacement(puzzleString, row, column, value) {
-    if (value.trim().length == 0) return "Required field(s) missing";
+    if (value.trim().length == 0 || row.trim().length === 0 || column < 0)
+      return "Required field(s) missing";
 
     if (
       parseInt(value) < 1 ||
@@ -105,23 +115,23 @@ class SudokuSolver {
     )
       return "Invalid value";
 
-    let rowNum = this.rowAsNum(row.toLocaleUpperCase());
+    let rowNum = this.rowAsNum(row.toLocaleUpperCase()) + 1;
 
     if (rowNum < 0 || typeof column !== "number" || column <= 0)
       return "Invalid coordinate";
 
     // Row and column check for region (3x3 grid)
-    let grid = this.createGrid(this.solveSuduko(this.createGrid(puzzleString)));
-    let inRow = false;
-    let inCol = false;
+    let grid = this.createGrid(puzzleString);
+    let startRow = rowNum - (rowNum % 3);
+    let startCol = column - (column % 3);
 
-    for (let i = rowNum; i < 3; i++)
-      if (grid[i][column - 1] == parseInt(value)) inRow = true;
+    if (grid[rowNum][column - 1] !== 0) return false;
 
-    for (let i = column - 1; i < 3; i++)
-      if (grid[rowNum][i] == parseInt(value)) inCol = true;
+    for (let i = 0; i < 3; i++)
+      for (let x = 0; x < 3; x++)
+        if (grid[i + startRow][x + startCol] == parseInt(value)) return false;
 
-    return inRow && inCol;
+    return true;
   }
 
   /**
