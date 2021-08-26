@@ -26,20 +26,18 @@ class SudokuSolver {
    * Checks if the value entered is in the puzzle at the row of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
    * @param {String} row            Represents the row of the specified region
-   * @param {Number} column         Represents the column of the specified region
+   * @param {Number|String} column  Represents the column of the specified region (if accurate)
    * @param {String} value          Represents the value to look for
    *
    * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkRowPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (parseInt(value) < 1 || parseInt(value) > 9 || isNaN(parseInt(value)))
-      return "Invalid value";
+    if (/[^1-9]/.test(value)) return "Invalid value";
 
     let rowNum = this.rowAsNum(row.toLocaleUpperCase());
 
-    if (rowNum < 0 || typeof column !== "number" || column <= 0)
-      return "Invalid coordinate";
+    if (rowNum < 0 || /[^1-9]/.test(column)) return "Invalid coordinate";
 
     // Validate grid
     let grid = this.createGrid(puzzleString);
@@ -62,20 +60,18 @@ class SudokuSolver {
    * Checks if the value entered is in the puzzle at the column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
    * @param {String} row            Represents the row of the specified region
-   * @param {Number} column         Represents the column of the specified region
+   * @param {Number|String} column  Represents the column of the specified region (if accurate)
    * @param {String} value          Represents the value to look for
    *
    * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkColPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (parseInt(value) < 1 || parseInt(value) > 9 || isNaN(parseInt(value)))
-      return "Invalid value";
+    if (/[^1-9]/.test(value)) return "Invalid value";
 
     let rowNum = this.rowAsNum(row.toLocaleUpperCase());
 
-    if (rowNum < 0 || typeof column !== "number" || column <= 0)
-      return "Invalid coordinate";
+    if (rowNum < 0 || /[^1-9]/.test(column)) return "Invalid coordinate";
 
     // Validates grid
     let grid = this.createGrid(puzzleString);
@@ -98,20 +94,18 @@ class SudokuSolver {
    * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
    * @param {String} row            Represents the row of the specified region
-   * @param {Number} column         Represents the column of the specified region
+   * @param {Number|String} column  Represents the column of the specified region (if accurate)
    * @param {String} value          Represents the value to look for
    *
    * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkRegionPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (parseInt(value) < 1 || parseInt(value) > 9 || isNaN(parseInt(value)))
-      return "Invalid value";
+    if (/[^1-9]/.test(value)) return "Invalid value";
 
     let rowNum = this.rowAsNum(row.toLocaleUpperCase()) + 1;
 
-    if (rowNum < 0 || typeof column !== "number" || column <= 0)
-      return "Invalid coordinate";
+    if (rowNum < 0 || /[^1-9]/.test(column)) return "Invalid coordinate";
 
     // Row and column check for region (3x3 grid)
     let grid = this.createGrid(puzzleString);
