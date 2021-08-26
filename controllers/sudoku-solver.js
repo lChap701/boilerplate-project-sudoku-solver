@@ -16,8 +16,7 @@ class SudokuSolver {
     if (puzzleString.trim().length !== 81)
       return "Expected puzzle to be 81 characters long";
 
-    if (!puzzleString.includes(".") || !/[1-9]+/g.test(puzzleString))
-      return "Invalid characters in puzzle";
+    if (!/^[1-9.]+$/g.test(puzzleString)) return "Invalid characters in puzzle";
 
     return "valid";
   }
@@ -27,7 +26,7 @@ class SudokuSolver {
    * @param {String} puzzleString   Represents the entire puzzle
    * @param {Number} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
-   * @param {Number} value          Represents the value to look for
+   * @param {String} value          Represents the value to look for
    *
    * @returns Returns an object containing message(s) that determine if the user was correct
    */
@@ -41,7 +40,7 @@ class SudokuSolver {
    * @param {String} puzzleString   Represents the entire puzzle
    * @param {Number} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
-   * @param {Number} value          Represents the value to look for
+   * @param {String} value          Represents the value to look for
    *
    * @returns Returns an object containing message(s) that determine if the user was correct
    */
@@ -55,7 +54,7 @@ class SudokuSolver {
    * @param {String} puzzleString   Represents the entire puzzle
    * @param {Number} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
-   * @param {Number} value          Represents the value to look for
+   * @param {String} value          Represents the value to look for
    *
    * @returns Returns an object containing message(s) that determine if the user was correct
    */
@@ -71,17 +70,15 @@ class SudokuSolver {
    * @returns Returns an object containing the solution to the puzzle or an error message
    */
   solve(puzzleString) {
-    console.log(puzzleString);
     const message = this.validate(puzzleString);
-    console.log(message);
 
     // Checks if the puzzle contains valid characters
     if (message === "valid") {
-      const solution = this.solveSuduko(this.createGrid(puzzleString));
+      let grid = this.createGrid(puzzleString);
+      let solution = this.solveSuduko(grid);
 
       // Checks if a solution was found
       if (solution) {
-        console.log(solution);
         return { solution: solution };
       } else {
         return { error: "Puzzle cannot be solved" };
@@ -93,38 +90,64 @@ class SudokuSolver {
 
   /**
    * Creates a 9x9 grid
+   * @see {@link https://www.youtube.com/watch?v=6XDcvG2ZCRc}
+   *
    * @param {String} puzzleString   Represents the entire puzzle as a string
    *
    * @returns Returns a 9x9 grid based on the string version of the puzzle
    */
   createGrid(puzzleString) {
-    let grid = [];
+    let grid = [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
 
-    for (let row = 0; row < 9; row++) {
-      let values = []; // starts a new row of values after each row is finished
-      for (let col = 0; col < 9; col++) values.push(puzzleString[col]);
-      console.log(values);
-      grid.push(values);
+    let row = -1;
+    let col = 0;
+
+    for (let i = 0; i < puzzleString.length; i++) {
+      if (i % 9 == 0) row++;
+      if (col % 9 == 0) col = 0;
+
+      grid[row][col] = puzzleString[i] === "." ? 0 : parseInt(puzzleString[i]);
+      col++;
     }
 
-    console.log(grid);
-
     return grid;
+  }
+
+  /**
+   * Converts the grid value back to a string
+   * @see {@link https://www.youtube.com/watch?v=6XDcvG2ZCRc}
+   *
+   * @param {Number[]} grid   Represents the grid to convert
+   *
+   * @returns Returns a string version of the grid
+   */
+  gridToString(grid) {
+    return grid.flat().join("");
   }
 
   /**
    * Finds the solution for the current puzzle (if it exists)
    * @see Original: {@link https://www.geeksforgeeks.org/sudoku-backtracking-7/}
    *
-   * @param {String[]} grid     Represents the entire puzzle
+   * @param {Number[]} grid     Represents the entire puzzle
    * @param {Number} row        Represents all rows of the puzzle
-   * @param {Number} column     Represents all columns of the puzzle
+   * @param {Number} col        Represents all columns of the puzzle
    *
    * @returns Returns the solution that was found or null when nothing was found
    */
-  solveSuduko(grid, row, col) {
+  solveSuduko(grid, row = 0, col = 0) {
     // Ends execution once the last row and col is reached
-    if (row == 9 - 1 && col == 9) return grid;
+    if (row == 9 - 1 && col == 9) return this.gridToString(grid);
 
     // Checks if a new row is reached
     if (col == 9) {
@@ -133,38 +156,39 @@ class SudokuSolver {
     }
 
     // Checks if the column already has a value
-    if (grid[row][col] != ".") return solveSuduko(grid, row, col + 1);
+    if (grid[row][col] != 0) return this.solveSuduko(grid, row, col + 1);
 
     // Checks if a valid value is used, assigns new values to columns,
     // and determines if the puzzle has been solved
     for (let num = 1; num < 10; num++) {
-      if (isSafe(grid, row, col, num)) {
+      if (this.isSafe(grid, row, col, num)) {
         grid[row][col] = num;
-        if (solveSuduko(grid, row, col + 1)) return grid;
+        if (this.solveSuduko(grid, row, col + 1))
+          return this.gridToString(grid);
       }
 
       // Removes assigned value since it is invalid
-      grid[row][col] = ".";
+      grid[row][col] = 0;
     }
 
-    return null;
+    return false;
   }
 
   /**
    * Checks if current value in the puzzle is "safe" to change
    * @see Original: {@link https://www.geeksforgeeks.org/sudoku-backtracking-7/}
    *
-   * @param {String[]} grid     Represents the entire puzzle
+   * @param {Number[]} grid     Represents the entire puzzle
    * @param {Number} row        Represents all rows of the puzzle
-   * @param {Number} column     Represents all columns of the puzzle
+   * @param {Number} col        Represents all columns of the puzzle
    * @param {Number} num        Represents the number to check for
    *
    * @returns Returns a boolean value to check if the value should be changed
    */
   isSafe(grid, row, col, num) {
     // Checks for the same number in the current region/grid
-    for (let i = 0; i < 9; i++) if (grid[row][i] == num) return false;
-    for (let i = 0; i < 9; i++) if (grid[i][col] == num) return false;
+    for (let i = 0; i <= 8; i++) if (grid[row][i] == num) return false;
+    for (let i = 0; i <= 8; i++) if (grid[i][col] == num) return false;
 
     // Checks for the same number in the 3x3 grid
     let startRow = row - (row % 3);
