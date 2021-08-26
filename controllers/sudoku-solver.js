@@ -13,19 +13,19 @@ class SudokuSolver {
   validate(puzzleString) {
     if (puzzleString === undefined || puzzleString.trim().length === 0)
       return "Required field missing";
-    
+
     if (puzzleString.trim().length !== 81)
       return "Expected puzzle to be 81 characters long";
 
     if (!/^[1-9.]+$/g.test(puzzleString)) return "Invalid characters in puzzle";
 
-    return "valid"
+    return "valid";
   }
 
   /**
    * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
-   * @param {Number} row            Represents the row of the specified region
+   * @param {String} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
    * @param {String} value          Represents the value to look for
    *
@@ -39,7 +39,7 @@ class SudokuSolver {
   /**
    * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
-   * @param {Number} row            Represents the row of the specified region
+   * @param {String} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
    * @param {String} value          Represents the value to look for
    *
@@ -53,7 +53,7 @@ class SudokuSolver {
   /**
    * Checks if the value entered is in the puzzle at the row and column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
-   * @param {Number} row            Represents the row of the specified region
+   * @param {String} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
    * @param {String} value          Represents the value to look for
    *
