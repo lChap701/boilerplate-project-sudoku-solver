@@ -65,10 +65,7 @@ module.exports = function (app) {
     // Checks if any conflicts were found during validation
     if (conflicts.length > 0) {
       res.json({ valid: false, conflict: conflicts });
-      msgSent = true;
-    }
-
-    if (!msgSent) {
+    } else {
       res.json({ valid: true });
     }
   });
