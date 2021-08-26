@@ -33,8 +33,6 @@ class SudokuSolver {
    */
   checkRowPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (!value || !row || column < 0) return "Required field(s) missing";
-
     if (
       parseInt(value) < 1 ||
       parseInt(value) > 9 ||
@@ -75,8 +73,6 @@ class SudokuSolver {
    */
   checkColPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (!value || !row || column < 0) return "Required field(s) missing";
-
     if (
       parseInt(value) < 1 ||
       parseInt(value) > 9 ||
@@ -116,8 +112,7 @@ class SudokuSolver {
    * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkRegionPlacement(puzzleString, row, column, value) {
-    if (!value || !row || column < 0) return "Required field(s) missing";
-
+    // Validate inputs
     if (
       parseInt(value) < 1 ||
       parseInt(value) > 9 ||

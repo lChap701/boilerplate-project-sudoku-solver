@@ -40,30 +40,30 @@ module.exports = function (app) {
     // Checks the results of the puzzle validation
     if (puzzleChkRes !== "valid") {
       res.json({ error: puzzleChkRes });
-      msgSent = true;
+      return;
     }
 
     // Checks the results of the row validation
-    if (typeof rowChkRes === "string" && !msgSent) {
+    if (typeof rowChkRes === "string") {
       res.json({ error: rowChkRes });
-      msgSent = true;
-    } else if (!rowChkRes && !msgSent) {
+      return;
+    } else if (!rowChkRes) {
       conflicts.push("row");
     }
 
     // Checks the results of the column validation
-    if (typeof colChkRes === "string" && !msgSent) {
+    if (typeof colChkRes === "string") {
       res.json({ error: colChkRes });
-      msgSent = true;
-    } else if (!colChkRes && !msgSent) {
+      return;
+    } else if (!colChkRes) {
       conflicts.push("column");
     }
 
     // Checks the results of the region validation
-    if (typeof regChkRes === "string" && !msgSent) {
+    if (typeof regChkRes === "string") {
       res.json({ error: regChkRes });
-      msgSent = true;
-    } else if (!regChkRes && !msgSent) {
+      return;
+    } else if (!regChkRes) {
       conflicts.push("region");
     }
 
