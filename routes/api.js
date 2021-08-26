@@ -12,7 +12,6 @@ module.exports = function (app) {
 
   app.route("/api/check").post((req, res) => {
     let conflicts = [];
-    let msgSent = false;
 
     // Gets the data that was submitted
     const { puzzle, coordinate, value } = req.body;
