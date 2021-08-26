@@ -41,29 +41,29 @@ suite("Functional Tests", () => {
             `response should have the property 'solution' that equals '${puzzles[INDEX][1]}'`
           );
         });
+    });
 
-      test("2)  No Puzzle String Test", () => {
-        chai
-          .request(server)
-          .post(PATH)
-          .send()
-          .end((err, res) => {
-            assert.equal(res.status, 200, "response status should be 200");
+    test("2)  No Puzzle String Test", () => {
+      chai
+        .request(server)
+        .post(PATH)
+        .send()
+        .end((err, res) => {
+          assert.equal(res.status, 200, "response status should be 200");
 
-            assert.property(
-              res.body,
-              "error",
-              "response should have the property 'error'"
-            );
+          assert.property(
+            res.body,
+            "error",
+            "response should have the property 'error'"
+          );
 
-            assert.propertyVal(
-              res.body,
-              "error",
-              "Required field missing",
-              "response should have the property 'error' that equals 'Required field missing'"
-            );
-          });
-      });
+          assert.propertyVal(
+            res.body,
+            "error",
+            "Required field missing",
+            "response should have the property 'error' that equals 'Required field missing'"
+          );
+        });
     });
 
     test("3)  Puzzle String with Invalid Characters Test", () => {
