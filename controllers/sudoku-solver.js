@@ -23,13 +23,13 @@ class SudokuSolver {
   }
 
   /**
-   * Checks if the value entered is in the puzzle at the row and column of the specified region
+   * Checks if the value entered is in the puzzle at the row of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
    * @param {String} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
    * @param {String} value          Represents the value to look for
    *
-   * @returns Returns an object containing message(s) that determine if the user was correct
+   * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkRowPlacement(puzzleString, row, column, value) {
     if (value.trim().length == 0) return "Required field(s) missing";
@@ -46,22 +46,22 @@ class SudokuSolver {
     if (rowNum < 0 || typeof column !== Number || column <= 0)
       return "Invalid coordinate";
 
-    return this.findValue(
-      this.createGrid(puzzleString),
-      rowNum,
-      column - 1,
-      value
-    );
+    let grid = this.createGrid(puzzleString);
+
+    for (let i = column - 1; i < 9; i++)
+      if (grid[rowNum][i] == parseInt(value)) return true;
+
+    return false;
   }
 
   /**
-   * Checks if the value entered is in the puzzle at the row and column of the specified region
+   * Checks if the value entered is in the puzzle at the column of the specified region
    * @param {String} puzzleString   Represents the entire puzzle
    * @param {String} row            Represents the row of the specified region
    * @param {Number} column         Represents the column of the specified region
    * @param {String} value          Represents the value to look for
    *
-   * @returns Returns an object containing message(s) that determine if the user was correct
+   * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkColPlacement(puzzleString, row, column, value) {
     if (value.trim().length == 0) return "Required field(s) missing";
@@ -78,12 +78,12 @@ class SudokuSolver {
     if (rowNum < 0 || typeof column !== Number || column <= 0)
       return "Invalid coordinate";
 
-    return this.findValue(
-      this.createGrid(puzzleString),
-      rowNum,
-      column - 1,
-      value
-    );
+    let grid = this.createGrid(puzzleString);
+
+    for (let i = rowNum; i < 9; i++)
+      if (grid[i][column - 1] == parseInt(value)) return true;
+
+    return false;
   }
 
   /**
@@ -93,7 +93,7 @@ class SudokuSolver {
    * @param {Number} column         Represents the column of the specified region
    * @param {String} value          Represents the value to look for
    *
-   * @returns Returns an object containing message(s) that determine if the user was correct
+   * @returns Returns a message or boolean value that determines if the user was correct
    */
   checkRegionPlacement(puzzleString, row, column, value) {
     if (value.trim().length == 0) return "Required field(s) missing";
@@ -111,12 +111,18 @@ class SudokuSolver {
     if (rowNum < 0 || typeof column !== Number || column <= 0)
       return "Invalid coordinate";
 
-    return this.findValue(
-      this.createGrid(puzzleString),
-      rowNum,
-      column - 1,
-      value
-    );
+    let grid = this.createGrid(puzzleString);
+    let checkRow = rowNum - (rowNum % 3);
+    let col = column - 1;
+    let checkCol = col - (col % 3);
+    console.log(checkRow);
+    console.log(checkCol);
+
+    for (let i = checkRow; i < 3; i++)
+      for (let x = checkRow; x < 3; x++)
+        if (grid[i][x] == parseInt(value)) return true;
+
+    return false;
   }
 
   /**
@@ -148,29 +154,6 @@ class SudokuSolver {
       default:
         return -1;
     }
-  }
-
-  /**
-   * Attempts to find the value specified by the user
-   * @param {Number[]} grid   Represents the entire puzzle
-   * @param {Number} row      Represents all rows (as numbers) in the puzzle
-   * @param {Number} col      Represents all columns in the puzzle
-   * @param {String} value    Represents the value to search for
-   *
-   * @returns Returns a boolean value that indicates if the value was founf
-   */
-  findValue(grid, row, col, value) {
-    // Checks for the same number in the 3x3 grid
-    let checkRow = row - (row % 3);
-    let checkCol = col - (col % 3);
-    console.log(checkRow);
-    console.log(checkCol);
-
-    for (let i = 0; i < 3; i++)
-      for (let x = 0; x < 3; x++)
-        if (grid[i + checkRow][x + checkCol] == parseInt(value)) return true;
-
-    return false;
   }
 
   /**
