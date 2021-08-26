@@ -33,11 +33,7 @@ class SudokuSolver {
    */
   checkRowPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (
-      parseInt(value) < 1 ||
-      parseInt(value) > 9 ||
-      typeof parseInt(value) === NaN
-    )
+    if (parseInt(value) < 1 || parseInt(value) > 9 || isNaN(parseInt(value)))
       return "Invalid value";
 
     let rowNum = this.rowAsNum(row.toLocaleUpperCase());
@@ -73,11 +69,7 @@ class SudokuSolver {
    */
   checkColPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (
-      parseInt(value) < 1 ||
-      parseInt(value) > 9 ||
-      typeof parseInt(value) === NaN
-    )
+    if (parseInt(value) < 1 || parseInt(value) > 9 || isNaN(parseInt(value)))
       return "Invalid value";
 
     let rowNum = this.rowAsNum(row.toLocaleUpperCase());
@@ -113,11 +105,7 @@ class SudokuSolver {
    */
   checkRegionPlacement(puzzleString, row, column, value) {
     // Validate inputs
-    if (
-      parseInt(value) < 1 ||
-      parseInt(value) > 9 ||
-      typeof parseInt(value) === NaN
-    )
+    if (parseInt(value) < 1 || parseInt(value) > 9 || isNaN(parseInt(value)))
       return "Invalid value";
 
     let rowNum = this.rowAsNum(row.toLocaleUpperCase()) + 1;

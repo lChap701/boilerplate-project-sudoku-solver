@@ -21,6 +21,11 @@ module.exports = function (app) {
       return;
     }
 
+    if (coordinate.length > 2) {
+      res.json({ error: "Invalid coordinate" });
+      return;
+    }
+
     let row = coordinate.split("")[0];
     let col = coordinate.split("")[1];
     col = col == undefined || col == "" ? -1 : parseInt(col);
