@@ -13,12 +13,13 @@ class SudokuSolver {
   validate(puzzleString) {
     if (puzzleString === undefined || puzzleString.trim().length === 0)
       return "Required field missing";
+    
     if (puzzleString.trim().length !== 81)
       return "Expected puzzle to be 81 characters long";
 
     if (!/^[1-9.]+$/g.test(puzzleString)) return "Invalid characters in puzzle";
 
-    return "valid";
+    return "valid"
   }
 
   /**
