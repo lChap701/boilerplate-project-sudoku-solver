@@ -32,29 +32,29 @@ module.exports = function (app) {
 
     // Checks the results of the row validation
     if (typeof rowChkRes === String) {
-      return { error: rowRes };
+      res.json({ error: rowChkRes });
     } else if (!rowChkRes) {
       conflicts.push("row");
     }
 
     // Checks the results of the column validation
     if (typeof colChkRes === String) {
-      return { error: colChkRes };
+      res.json({ error: colChkRes });
     } else if (!colChkRes) {
       conflicts.push("column");
     }
 
     // Checks the results of the region validation
     if (typeof regChkRes === String) {
-      return { error: regChkRes };
+      res.json({ error: regChkRes });
     } else if (!regChkRes) {
       conflicts.push("region");
     }
 
     // Checks if any conflicts were found during validation
-    if (conflicts.length > 0) return { valid: false, conflict: conflicts };
+    if (conflicts.length > 0) res.json({ valid: false, conflict: conflicts });
 
-    return { valid: true };
+    res.json({ valid: true });
   });
 
   app.route("/api/solve").post((req, res) => {
