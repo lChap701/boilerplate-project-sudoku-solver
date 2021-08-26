@@ -13,6 +13,7 @@ module.exports = function (app) {
   app.route("/api/check").post((req, res) => {
     console.log(req.body);
     let conflicts = [];
+    let msgSent = false;
 
     // Gets the data that was submitted
     let puzzle = req.body.puzzle;
@@ -32,33 +33,42 @@ module.exports = function (app) {
     );
 
     // Checks the results of the puzzle validation
-    if (puzzleChkRes !== "valid") res.json({ error: puzzleChkRes });
+    if (puzzleChkRes !== "valid") {
+      res.json({ error: puzzleChkRes });
+      msgSent = true;
+    }
 
     // Checks the results of the row validation
-    if (typeof rowChkRes === "string") {
+    if (typeof rowChkRes === "string" && !msgSent) {
       res.json({ error: rowChkRes });
-    } else if (!rowChkRes) {
+      msgSent = true;
+    } else if (!rowChkRes && !msgSent) {
       conflicts.push("row");
     }
 
     // Checks the results of the column validation
-    if (typeof colChkRes === "string") {
+    if (typeof colChkRes === "string" && !msgSent) {
       res.json({ error: colChkRes });
-    } else if (!colChkRes) {
+      msgSent = true;
+    } else if (!colChkRes && !msgSent) {
       conflicts.push("column");
     }
 
     // Checks the results of the region validation
-    if (typeof regChkRes === "string") {
+    if (typeof regChkRes === "string" && !msgSent) {
       res.json({ error: regChkRes });
-    } else if (!regChkRes) {
+      msgSent = true;
+    } else if (!regChkRes && !msgSent) {
       conflicts.push("region");
     }
 
     // Checks if any conflicts were found during validation
     if (conflicts.length > 0) {
       res.json({ valid: false, conflict: conflicts });
-    } else {
+      msgSent = true;
+    }
+
+    if (!msgSent) {
       res.json({ valid: true });
     }
   });
