@@ -19,7 +19,6 @@ module.exports = function (app) {
   });
 
   app.route("/api/solve").post((req, res) => {
-    console.log(req.body);
     res.json(solver.solve(req.body.puzzle));
   });
 };
