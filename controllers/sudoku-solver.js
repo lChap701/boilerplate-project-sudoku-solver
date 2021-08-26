@@ -33,6 +33,7 @@ class SudokuSolver {
    */
   checkRowPlacement(puzzleString, row, column, value) {
     if (value.trim().length == 0) return "Required field(s) missing";
+
     if (
       parseInt(value) < 1 ||
       parseInt(value) > 9 ||
@@ -41,12 +42,11 @@ class SudokuSolver {
       return "Invalid value";
 
     let rowNum = this.rowAsNum(row.toLocaleUpperCase());
-    console.log(rowNum);
 
-    if (rowNum < 0 || typeof column !== Number || column <= 0)
+    if (rowNum < 0 || typeof column !== "number" || column <= 0)
       return "Invalid coordinate";
 
-    let grid = this.createGrid(puzzleString);
+    let grid = this.createGrid(this.solveSuduko(this.createGrid(puzzleString)));
 
     for (let i = column - 1; i < 9; i++)
       if (grid[rowNum][i] == parseInt(value)) return true;
@@ -65,6 +65,7 @@ class SudokuSolver {
    */
   checkColPlacement(puzzleString, row, column, value) {
     if (value.trim().length == 0) return "Required field(s) missing";
+
     if (
       parseInt(value) < 1 ||
       parseInt(value) > 9 ||
@@ -73,12 +74,12 @@ class SudokuSolver {
       return "Invalid value";
 
     let rowNum = this.rowAsNum(row.toLocaleUpperCase());
-    console.log(rowNum);
 
-    if (rowNum < 0 || typeof column !== Number || column <= 0)
+    if (rowNum < 0 || typeof column !== "number" || column <= 0)
       return "Invalid coordinate";
 
-    let grid = this.createGrid(puzzleString);
+    let grid = this.createGrid(this.solveSuduko(this.createGrid(puzzleString)));
+    console.log(grid);
 
     for (let i = rowNum; i < 9; i++)
       if (grid[i][column - 1] == parseInt(value)) return true;
@@ -106,12 +107,13 @@ class SudokuSolver {
       return "Invalid value";
 
     let rowNum = this.rowAsNum(row.toLocaleUpperCase());
-    console.log(rowNum);
 
-    if (rowNum < 0 || typeof column !== Number || column <= 0)
+    if (rowNum < 0 || typeof column !== "number" || column <= 0)
       return "Invalid coordinate";
 
-    let grid = this.createGrid(puzzleString);
+    let grid = this.createGrid(this.solveSuduko(this.createGrid(puzzleString)));
+    console.log(grid);
+
     let checkRow = rowNum - (rowNum % 3);
     let col = column - 1;
     let checkCol = col - (col % 3);
@@ -202,7 +204,7 @@ class SudokuSolver {
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
     ];
 
-    let row = -1;
+    let row = -1; // starts here so the first real value will be '0'
     let col = 0;
 
     for (let i = 0; i < puzzleString.length; i++) {
@@ -217,18 +219,6 @@ class SudokuSolver {
   }
 
   /**
-   * Converts the grid value back to a string
-   * @see {@link https://www.youtube.com/watch?v=6XDcvG2ZCRc}
-   *
-   * @param {Number[]} grid   Represents the grid to convert
-   *
-   * @returns Returns a string version of the grid
-   */
-  gridToString(grid) {
-    return grid.flat().join("");
-  }
-
-  /**
    * Finds the solution for the current puzzle (if it exists)
    * @see Original: {@link https://www.geeksforgeeks.org/sudoku-backtracking-7/}
    *
@@ -236,11 +226,11 @@ class SudokuSolver {
    * @param {Number} row        Represents all rows of the puzzle
    * @param {Number} col        Represents all columns of the puzzle
    *
-   * @returns Returns the solution that was found or null when nothing was found
+   * @returns Returns the solution (as a string) or null when nothing was found
    */
   solveSuduko(grid, row = 0, col = 0) {
     // Ends execution once the last row and col is reached
-    if (row == 9 - 1 && col == 9) return this.gridToString(grid);
+    if (row == 9 - 1 && col == 9) return grid.flat().join("");
 
     // Checks if a new row is reached
     if (col == 9) {
@@ -256,8 +246,7 @@ class SudokuSolver {
     for (let num = 1; num < 10; num++) {
       if (this.isSafe(grid, row, col, num)) {
         grid[row][col] = num;
-        if (this.solveSuduko(grid, row, col + 1))
-          return this.gridToString(grid);
+        if (this.solveSuduko(grid, row, col + 1)) return grid.flat().join("");
       }
 
       // Removes assigned value since it is invalid

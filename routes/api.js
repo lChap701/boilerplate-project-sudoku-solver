@@ -35,30 +35,32 @@ module.exports = function (app) {
     if (puzzleChkRes !== "valid") res.json({ error: puzzleChkRes });
 
     // Checks the results of the row validation
-    if (typeof rowChkRes === String) {
+    if (typeof rowChkRes === "string") {
       res.json({ error: rowChkRes });
     } else if (!rowChkRes) {
       conflicts.push("row");
     }
 
     // Checks the results of the column validation
-    if (typeof colChkRes === String) {
+    if (typeof colChkRes === "string") {
       res.json({ error: colChkRes });
     } else if (!colChkRes) {
       conflicts.push("column");
     }
 
     // Checks the results of the region validation
-    if (typeof regChkRes === String) {
+    if (typeof regChkRes === "string") {
       res.json({ error: regChkRes });
     } else if (!regChkRes) {
       conflicts.push("region");
     }
 
     // Checks if any conflicts were found during validation
-    if (conflicts.length > 0) res.json({ valid: false, conflict: conflicts });
-
-    res.json({ valid: true });
+    if (conflicts.length > 0) {
+      res.json({ valid: false, conflict: conflicts });
+    } else {
+      res.json({ valid: true });
+    }
   });
 
   app.route("/api/solve").post((req, res) => {
