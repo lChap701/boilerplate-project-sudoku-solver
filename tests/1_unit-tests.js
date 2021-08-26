@@ -3,6 +3,7 @@ const assert = chai.assert;
 
 const Solver = require("../controllers/sudoku-solver.js");
 let solver = new Solver();
+
 const puzzleObj = require("../controllers/puzzle-strings");
 let puzzles = puzzleObj.puzzlesAndSolutions;
 
@@ -63,6 +64,7 @@ suite("UnitTests", () => {
         "error",
         `${JSON.stringify(message)} should have a property of 'error'`
       );
+
       assert.propertyVal(
         message,
         "error",
