@@ -110,20 +110,18 @@ class SudokuSolver {
     if (rowNum < 0 || typeof column !== "number" || column <= 0)
       return "Invalid coordinate";
 
+    // Row and column check for region (3x3 grid)
     let grid = this.createGrid(this.solveSuduko(this.createGrid(puzzleString)));
-    console.log(grid);
+    let inRow = false;
+    let inCol = false;
 
-    let checkRow = rowNum - (rowNum % 3);
-    let col = column - 1;
-    let checkCol = col - (col % 3);
-    console.log(checkRow);
-    console.log(checkCol);
+    for (let i = rowNum; i < 3; i++)
+      if (grid[i][column - 1] == parseInt(value)) inRow = true;
 
-    for (let i = checkRow; i < 3; i++)
-      for (let x = checkRow; x < 3; x++)
-        if (grid[i][x] == parseInt(value)) return true;
+    for (let i = column - 1; i < 3; i++)
+      if (grid[rowNum][i] == parseInt(value)) inCol = true;
 
-    return false;
+    return inRow && inCol;
   }
 
   /**
